@@ -16,4 +16,18 @@ app.get("/", (req, res) => {
   }
 });
 
+app.post("/appointments", (req, res) => {
+  const parameters = req.body.queryResult.parameters;
+  //console.log("parameters", parameters);
+  const apptObj = {
+    date_time: parameters["date-time"].date_time,
+    // time: parameters["time"],
+  };
+  // console.log(apptObj);
+  db.get("appointments").push(apptObj).write();
+  const fulfillmentMessages = req.body.queryResult.fulfillmentMessages;
+  console.log("messages " + fulfillmentMessages);
+  res.json({ fulfillmentMessages });
+});
+
 module.exports = app;
